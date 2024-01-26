@@ -74,14 +74,15 @@ int main(int argc, char** argv)
 			fileBufferIV = (unsigned char*)malloc(fileLenIV);
 			fread(fileBufferIV, fileLenIV, 1, f);
 
-
-
-
+			unsigned char ciphertext[48];
 			AES_KEY aes_key;
-			AES_set_encrypt_key(fileBufferIV, (sizeof(fileBufferIV) * 8), &aes_key);
+			AES_set_encrypt_key(fileBufferKey, (sizeof(fileBufferKey) * 8), &aes_key);
+			AES_cbc_encrypt(fileBuffer, ciphertext, sizeof(ciphertext), &aes_key, fileBufferIV, AES_ENCRYPT);
 
 
-
+			printf("Ciphertext for AES-CBC: ");
+			for (unsigned int i = 0; i < sizeof(ciphertext); i++)
+				printf("%02X", ciphertext[i]);
 
 		}
 		fclose(f);
