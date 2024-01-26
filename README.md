@@ -20,3 +20,5 @@ doar ca asta e in hex
 
 
 vezi ca ai main.java, dar sa modifici directorul unde cauti
+nu gaseste
+
