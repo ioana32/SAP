@@ -5,6 +5,9 @@ am pus source.cpp si combina cu aes_cbc
 Pai si de unde iau aes_cbc?
 Facem noi java, fa tu c
 
+!! 
+Nu merge nici java (concluzie suntem prea prosti)
+
 
 Mama draga nimic nu stim
 Unde gasesc fisierul .user?
