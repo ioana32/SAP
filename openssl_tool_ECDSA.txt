@@ -1,0 +1,71 @@
+1. Generate curves and EC key pair
+
+	1.1. The full list of built-in curves
+
+		openssl ecparam -list_curves
+
+	1.2. An EC parameters file can then be generated for any of the built-in named curves (PEM format - Privacy Enhanced Mail defined in RFC 1422 is a de facto file format for cryptography operations based on ASCII by encoding the binary data using base64)
+
+		openssl ecparam -name prime256v1 -out prime256v1.pem    --------------> no parameter stored by the pem file itself, only the curve name
+		openssl ecparam -name prime256v1 -out prime256v1_all.pem -param_enc explicit   --------------> parameters stored by the pem file itself
+
+	1.3. Generate a private key from a pre-existing curve name/parameters file
+
+		openssl ecparam -in prime256v1.pem -genkey -noout -out prime256v1-key.pem
+		openssl ecparam -in prime256v1.pem -genkey -noout -out prime256v1-key_all.pem -param_enc explicit
+
+	1.4. Specific details of the parameters associated with a particular named curve 
+
+		openssl ecparam -in prime256v1.pem -text -param_enc explicit -noout
+
+	1.5. View the EC key pair
+
+		openssl ec -in prime256v1-key.pem -text -noout     --------------> only key pair
+		openssl ec -in prime256v1-key_all.pem -text -noout --------------> key pair and curve parameters
+
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+
+2. Full working ECDSA signature
+
+	2.1. List of built-in curves
+
+		openssl ecparam -list_curves
+
+	2.2. Generate EC private key
+
+		openssl ecparam -name prime256v1 -genkey -noout -out prime256v1.key
+
+	2.3. Generate EC public key
+
+		openssl ec -in prime256v1.key -pubout -out prime256v1.pubkey.pem
+
+	2.4. Transform public key from PEM format into DER format (Distinguished Encoding Rules produces binary output and provides exactly one way to encode an ASN.1 value)
+
+		openssl ec -pubin -inform PEM -in prime256v1.pubkey.pem -outform DER -out prime256v1.pubkey
+
+	2.5. See the public key as DER format
+
+		dumpasn1 prime256v1.pubkey
+
+	2.6. See the public key as PEM format
+
+		cat prime256v1.pubkey.pem
+
+	2.7. Create MD content to be signed from static text "My content for signing"
+
+		echo -n "My content for signing" |openssl dgst -sha256 -binary > hash256
+
+	2.8. Create the ECDSA signature with low-level public key operation (pkeyutl)
+
+		openssl pkeyutl -sign -inkey prime256v1.key -in hash256 > prime256v1.sig
+
+	2.9. See the ECDSA as DER format	
+
+		openssl asn1parse -in prime256v1.sig -inform der
+		dumpasn1 prime256v1.sig
+
+	2.10 Verify the ECDSA signature
+
+		openssl pkeyutl -in hash256 -inkey prime256v1.pubkey.pem -pubin -verify -sigfile prime256v1.sig
+
