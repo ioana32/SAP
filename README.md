@@ -12,3 +12,6 @@ Nu merge nici java (concluzie suntem prea prosti)
 Mama draga nimic nu stim
 Unde gasesc fisierul .user?
 in zipul de examen c acolo e si sub
+
+la java ex 1 pe chat gpt
+
