@@ -1,0 +1,78 @@
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Security;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.util.Date;
+import java.math.BigInteger;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.x509.X509V3CertificateGenerator;
+import org.bouncycastle.asn1.x509.X509Name;
+
+public class CertificateGenerator {
+
+    public static PublicKey loadPublicKey(String filename) throws IOException, GeneralSecurityException {
+        Security.addProvider(new BouncyCastleProvider());
+        CertificateFactory factory = CertificateFactory.getInstance(X.509);
+        try (FileInputStream fis = new FileInputStream(filename)) {
+            X509Certificate certificate = (X509Certificate) factory.generateCertificate(fis);
+            return certificate.getPublicKey();
+        }
+    }
+
+    public static X509Certificate generateCertificate(PublicKey publicKey, PrivateKey privateKey) throws Exception {
+        X509V3CertificateGenerator certGen = new X509V3CertificateGenerator();
+        X509Name dnName = new X509Name(CN=Test Certificate);
+
+        certGen.setSerialNumber(BigInteger.valueOf(System.currentTimeMillis()));
+        certGen.setSubjectDN(dnName);
+        certGen.setIssuerDN(dnName);  use the same
+        certGen.setNotBefore(new Date(System.currentTimeMillis() - 50000));
+        certGen.setNotAfter(new Date(System.currentTimeMillis() + 50000));
+        certGen.setPublicKey(publicKey);
+        certGen.setSignatureAlgorithm(SHA256WithRSAEncryption);
+
+        return certGen.generate(privateKey, BC);  BC for BouncyCastle
+    }
+
+    public static void generateCertificateInMain() {
+        try {
+             Încarcă cheia publică dintr-un fișier (înlocuiește publicKeyFile.crt cu calea reală către cheia publică)
+            PublicKey publicKey = loadPublicKey(publicKeyFile.crt);
+
+             Încarcă cheia privată (înlocuiește privateKeyFile.key cu calea reală către cheia privată)
+            PrivateKey privateKey = loadPrivateKey(privateKeyFile.key);
+
+             Generează certificatul folosind cheia publică și cheia privată
+            X509Certificate certificate = generateCertificate(publicKey, privateKey);
+
+             Poți să faci ce dorești cu certificatul, de exemplu, să-l salvezi într-un fișier
+            saveCertificateToFile(certificate, generatedCertificate.crt);
+
+            System.out.println(Certificate generated successfully.);
+        } catch (IOException  GeneralSecurityException  CertificateEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static PrivateKey loadPrivateKey(String privateKeyFile) throws IOException, GeneralSecurityException {
+         Implementează încărcarea cheii private din fișier (nu am detaliat această parte în codul furnizat)
+         Ar putea fi similar cu loadPublicKey
+         După încărcarea cheii, ar trebui să o returnezi așa return privateKey;
+        return null;
+    }
+
+    private static void saveCertificateToFile(X509Certificate certificate, String fileName) throws IOException {
+         Implementează salvarea certificatului într-un fișier
+         Folosește FileOutputStream pentru a scrie datele certificate-ului într-un fișier
+    }
+
+    public static void main(String[] args) {
+        generateCertificateInMain();
+    }
+}
