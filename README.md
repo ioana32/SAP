@@ -1,6 +1,7 @@
 # SAP
 Veci la C++ continuarea pentru 2
 am pus source.cpp si combina cu aes_cbc
+!!!
 Pai si de unde iau aes_cbc?
 
 
