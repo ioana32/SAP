@@ -21,4 +21,5 @@ doar ca asta e in hex
 
 vezi ca ai main.java, dar sa modifici directorul unde cauti
 nu gaseste
-
+pai trebuie sa ai fisier .user
+si eu nu am gasit in tot ce ai pus aici
