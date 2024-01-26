@@ -8,4 +8,4 @@ Facem noi java, fa tu c
 
 Mama draga nimic nu stim
 Unde gasesc fisierul .user?
-in zipul de examen c
+in zipul de examen c acolo e si sub
