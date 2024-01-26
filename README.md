@@ -15,3 +15,5 @@ in zipul de examen c acolo e si sub
 
 la java ex 1 pe chat gpt
 
+gen numele fisierelor .user sunt hash-ul care il am aici: Mr7HA6zWAw2NVXL0BKdVsKZWaKjif9HwpmO2BlSt9GA=
+doar ca asta e in hex
